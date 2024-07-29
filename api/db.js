@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-// require("dotenv").config();
+require("dotenv").config();
 
 // const pool = new Pool({
 //   host: process.env.DB_HOST,
@@ -12,7 +12,7 @@ const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
 });
 
-pool.connect((err, client, release) => {
+pool.connect((err) => {
   if (err) throw err;
   console.log("Connet to PostgresSQL successfully");
 });
