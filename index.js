@@ -8,8 +8,6 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json()); // req.body
 
-// Routes
-
 // Create a todo
 app.post("/todos", async (req, res) => {
   try {
