@@ -6,7 +6,25 @@ const pool = require("./db");
 const port = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors());
+const prodOrigin = process.env.CORS_ORIGIN;
+const devOrigin = ["http://localhost:3000"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production" ? prodOrigin : devOrigin;
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin)) {
+        console.log(origin, allowedOrigins);
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 app.use(express.json()); // req.body
 
 // Create a todo
@@ -78,5 +96,5 @@ app.delete("/todos/:id", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server has started on port ${port}`);
 });
