@@ -9,15 +9,17 @@ const port = process.env.PORT || 4000;
 const prodOrigin = process.env.CORS_ORIGIN;
 const devOrigin = ["http://localhost:3000"];
 const allowedOrigins =
-  process.env.NODE_ENV == "production" ? prodOrigin : devOrigin;
+  process.env.NODE_ENV === "production" ? [prodOrigin] : devOrigin;
+
+const allowedOriginsSet = new Set(allowedOrigins);
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin)) {
-        console.log(origin, allowedOrigins);
+      if (!origin || allowedOriginsSet.has(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
     credentials: true,
