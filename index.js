@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000;
 const prodOrigin = process.env.CORS_ORIGIN;
 const devOrigin = ["http://localhost:3000"];
 const allowedOrigins =
-  process.env.NODE_ENV === "production" ? prodOrigin : devOrigin;
+  process.env.NODE_ENV == "production" ? prodOrigin : devOrigin;
 app.use(
   cors({
     origin: (origin, callback) => {
